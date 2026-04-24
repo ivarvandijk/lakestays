@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lakestays — Gateway to the Salzkammergut</title>
+  <meta name="description" content="Private 2-room apartment in Thalgau, Salzburg. Your peaceful gateway to the Salzkammergut — lakes, mountains and culture on your doorstep." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --navy:       #1b3a5c;
+      --navy-dark:  #122a44;
+      --navy-mid:   #1e4268;
+      --blue:       #5ba3c9;
+      --blue-light: #84bdd8;
+      --white:      #ffffff;
+      --off-white:  #f4f8fb;
+      --text:       #2c3e50;
+      --text-muted: #6b8096;
+      --border:     #d0dce8;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Montserrat', sans-serif; color: var(--text); line-height: 1.6; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.6rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: background .3s, padding .3s, box-shadow .3s;
+    }
+    nav.scrolled {
+      background: var(--navy);
+      padding: 1rem 3rem;
+      box-shadow: 0 2px 24px rgba(0,0,0,.25);
+    }
+    .nav-logo {
+      color: #fff; font-size: 1.1rem; font-weight: 800;
+      letter-spacing: .22em; text-transform: uppercase; text-decoration: none;
+    }
+    .nav-right { display: flex; align-items: center; gap: 2rem; }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,.82); text-decoration: none;
+      font-size: .7rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--blue-light); }
+
+    /* Language switcher */
+    .lang-switch { display: flex; align-items: center; gap: .35rem; }
+    .lang-btn {
+      background: none; border: 1px solid rgba(255,255,255,.25); border-radius: 2px;
+      cursor: pointer; color: rgba(255,255,255,.5);
+      font-family: 'Montserrat', sans-serif; font-size: .65rem;
+      font-weight: 700; letter-spacing: .12em;
+      padding: .25rem .5rem; transition: color .2s, border-color .2s, background .2s;
+    }
+    .lang-btn.active { color: #fff; border-color: var(--blue); background: var(--blue); }
+    .lang-btn:hover:not(.active) { color: #fff; border-color: rgba(255,255,255,.6); }
+
+    /* ─── HERO ─── */
+    .hero {
+      height: 100vh; min-height: 620px;
+      background: url('images/img8266.jpg') center/cover no-repeat;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .hero::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(160deg, rgba(18,42,68,.72) 0%, rgba(27,58,92,.60) 60%, rgba(30,66,104,.55) 100%);
+      pointer-events: none;
+    }
+    .hero::before {
+      content: 'LAKESTAYS';
+      position: absolute; pointer-events: none; z-index: 1;
+      font-size: 20vw; font-weight: 800; letter-spacing: .06em;
+      color: rgba(255,255,255,.055);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      white-space: nowrap;
+    }
+    .hero-content { position: relative; z-index: 2; padding: 2rem; }
+    .hero-scroll { z-index: 2; }
+    .hero-tagline {
+      color: var(--blue-light); font-size: clamp(.65rem, 1.8vw, .9rem);
+      letter-spacing: .45em; text-transform: uppercase; font-weight: 500;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 {
+      color: #fff; font-size: clamp(3rem, 9vw, 6.5rem);
+      font-weight: 800; letter-spacing: .22em; text-transform: uppercase; line-height: 1;
+    }
+    .hero-bar { width: 60px; height: 2px; background: var(--blue); margin: 1.8rem auto 1.4rem; }
+    .hero-location {
+      color: rgba(255,255,255,.55); font-size: .82rem; font-weight: 300;
+      letter-spacing: .1em; margin-bottom: 3rem;
+    }
+    .btn {
+      display: inline-block; padding: .95rem 2.6rem;
+      background: var(--blue); color: #fff;
+      font-family: 'Montserrat', sans-serif; font-size: .7rem;
+      font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
+      border: none; cursor: pointer; text-decoration: none;
+      transition: background .2s, transform .2s;
+    }
+    .btn:hover { background: var(--blue-light); transform: translateY(-2px); }
+    .hero-scroll {
+      position: absolute; bottom: 2.2rem; left: 50%; transform: translateX(-50%);
+      color: rgba(255,255,255,.3); font-size: .6rem; letter-spacing: .35em;
+      text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: .6rem;
+    }
+    .hero-scroll::after {
+      content: ''; display: block; width: 1px; height: 44px;
+      background: rgba(255,255,255,.18);
+    }
+
+    /* ─── SHARED ─── */
+    section { padding: 6.5rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .label { font-size: .65rem; letter-spacing: .38em; text-transform: uppercase; color: var(--blue); font-weight: 700; margin-bottom: .9rem; }
+    .title { font-size: clamp(1.7rem, 4vw, 2.7rem); font-weight: 800; color: var(--navy); letter-spacing: .04em; line-height: 1.2; margin-bottom: 1.4rem; }
+    .bar { width: 38px; height: 2px; background: var(--blue); margin-bottom: 2rem; }
+
+    /* ─── APARTMENT ─── */
+    #apartment { background: var(--off-white); }
+    .apt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .apt-text p { color: var(--text-muted); line-height: 1.95; margin-bottom: 1.4rem; }
+    .specs { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; margin-top: 2rem; }
+    .spec { display: flex; align-items: center; gap: .8rem; font-size: .82rem; font-weight: 600; color: var(--navy); }
+    .spec-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
+
+    /* Pricing */
+    .price-block { display: inline-flex; flex-direction: column; background: var(--navy); border-radius: 3px; padding: 1.4rem 2rem; margin-top: 2.2rem; }
+    .price-amount { color: #fff; font-size: 2.2rem; font-weight: 800; line-height: 1; }
+    .price-amount span { font-size: 1rem; font-weight: 400; color: var(--blue-light); }
+    .price-min { color: rgba(255,255,255,.55); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; margin-top: .5rem; }
+
+    /* ─── REGION ─── */
+    #region { background: var(--navy); }
+    #region .label { color: var(--blue-light); }
+    #region .title { color: #fff; }
+    #region .bar { background: var(--blue); }
+    #region .intro { color: rgba(255,255,255,.58); max-width: 600px; line-height: 1.9; margin-bottom: 3.5rem; }
+    .region-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.8rem; }
+    .region-card { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.07); padding: 2.5rem 1.8rem; border-radius: 3px; transition: background .3s, border-color .3s; }
+    .region-card:hover { background: rgba(255,255,255,.09); border-color: var(--blue); }
+    .r-icon { font-size: 2rem; margin-bottom: 1.4rem; }
+    .region-card h3 { color: #fff; font-size: .85rem; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; margin-bottom: .9rem; }
+    .region-card p { color: rgba(255,255,255,.58); font-size: .88rem; line-height: 1.85; }
+
+    /* ─── GALLERY ─── */
+    #gallery { background: #fff; }
+    .gallery-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 290px 290px 290px; gap: .7rem; }
+    .g-item { border-radius: 3px; overflow: hidden; }
+    .g-item:first-child { grid-row: span 3; }
+
+    /* ─── BOOKING ─── */
+    #booking { background: var(--off-white); }
+    .booking-wrap { display: grid; grid-template-columns: 1fr 1.6fr; gap: 5rem; }
+    .booking-info p { color: var(--text-muted); line-height: 1.9; margin-bottom: 1.2rem; font-size: .92rem; }
+    .notice {
+      background: #fff3e0; border-left: 3px solid #e67e22;
+      padding: .85rem 1rem; border-radius: 2px;
+      font-size: .8rem; color: #7d4e10; font-weight: 500; line-height: 1.7;
+      margin-top: 1.5rem;
+    }
+    .contact-links { margin-top: 2rem; display: flex; flex-direction: column; gap: .8rem; }
+    .contact-links a {
+      display: flex; align-items: center; gap: .7rem;
+      font-size: .82rem; color: var(--navy); text-decoration: none; font-weight: 600;
+      transition: color .2s;
+    }
+    .contact-links a:hover { color: var(--blue); }
+
+    /* Languages spoken */
+    .lang-spoken { margin-top: 2rem; }
+    .lang-spoken-title {
+      font-size: .65rem; font-weight: 700; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--navy); margin-bottom: .75rem;
+    }
+    .lang-flags { display: flex; flex-wrap: wrap; gap: .45rem; }
+    .lang-flag {
+      display: inline-flex; align-items: center; gap: .3rem;
+      background: white; border: 1px solid var(--border); border-radius: 2px;
+      padding: .28rem .65rem; font-size: .74rem; font-weight: 600; color: var(--navy);
+    }
+
+    /* Form */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+    .fg { margin-bottom: 1.4rem; }
+    .fg label { display: block; font-size: .65rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--navy); margin-bottom: .55rem; }
+    .fg input, .fg select, .fg textarea {
+      width: 100%; padding: .82rem 1rem;
+      border: 1px solid var(--border); border-radius: 3px;
+      font-family: 'Montserrat', sans-serif; font-size: .88rem;
+      color: var(--text); background: #fff; outline: none;
+      transition: border-color .2s;
+      -webkit-appearance: none; appearance: none;
+    }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--blue); }
+    .fg textarea { height: 110px; resize: vertical; }
+    .fg select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b8096' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
+    .purpose-warn { display: none; margin-top: .55rem; background: #fff3cd; border: 1px solid #ffc107; border-radius: 3px; padding: .7rem 1rem; font-size: .78rem; color: #856404; }
+    .form-msg { display: none; margin-top: 1.2rem; padding: 1.2rem 1.4rem; border-radius: 3px; font-size: .88rem; line-height: 1.7; text-align: center; }
+    .form-success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+    .form-error   { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+
+    /* ─── FOOTER ─── */
+    footer { background: var(--navy-dark); color: rgba(255,255,255,.55); padding: 4.5rem 2rem; text-align: center; }
+    .ft-logo { color: #fff; font-size: 1.6rem; font-weight: 800; letter-spacing: .26em; text-transform: uppercase; }
+    .ft-tag { color: var(--blue); font-size: .62rem; letter-spacing: .42em; text-transform: uppercase; margin-top: .3rem; margin-bottom: 2rem; }
+    .ft-div { width: 36px; height: 1px; background: rgba(255,255,255,.12); margin: 0 auto 1.8rem; }
+    .ft-links { display: flex; justify-content: center; gap: 2.8rem; flex-wrap: wrap; margin-bottom: 2.2rem; font-size: .82rem; }
+    .ft-links a { color: rgba(255,255,255,.55); text-decoration: none; transition: color .2s; }
+    .ft-links a:hover { color: var(--blue-light); }
+    .ft-links span { color: rgba(255,255,255,.55); }
+    .ft-addr { font-size: .78rem; margin-bottom: 1.8rem; }
+    .ft-copy { font-size: .65rem; color: rgba(255,255,255,.22); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .apt-grid, .booking-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+      .region-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 220px 220px 220px 220px; }
+      .g-item:first-child { grid-column: span 2; grid-row: span 1; }
+    }
+    @media (max-width: 640px) {
+      nav { padding: 1rem 1.4rem; }
+      nav.scrolled { padding: .85rem 1.4rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.4rem; }
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+      .ft-links { gap: 1.2rem; flex-direction: column; align-items: center; }
+      .gallery-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+      .g-item:first-child { grid-column: 1; }
+      .g-item img { height: 220px !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAV ═══ -->
+  <nav id="nav">
+    <a href="#home" class="nav-logo">Lakestays</a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#apartment" data-i18n="nav.apartment">The Apartment</a></li>
+        <li><a href="#region" data-i18n="nav.region">The Region</a></li>
+        <li><a href="#gallery" data-i18n="nav.gallery">Gallery</a></li>
+        <li><a href="#booking" data-i18n="nav.book">Book</a></li>
+      </ul>
+      <div class="lang-switch">
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="de">DE</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <p class="hero-tagline" data-i18n="hero.tagline">Gateway to the Salzkammergut</p>
+      <h1>Lakestays</h1>
+      <div class="hero-bar"></div>
+      <p class="hero-location">Thalgau · Salzburg · Austria</p>
+      <a href="#booking" class="btn" data-i18n="hero.btn">Request to Book</a>
+    </div>
+    <div class="hero-scroll" data-i18n="hero.scroll">Scroll</div>
+  </section>
+
+  <!-- ═══ THE APARTMENT ═══ -->
+  <section id="apartment">
+    <div class="container">
+      <div class="apt-grid">
+        <div class="apt-text">
+          <p class="label" data-i18n="apt.label">The Apartment</p>
+          <h2 class="title" data-i18n="apt.title">Private 2-Room Apartment in a Newly Built House</h2>
+          <div class="bar"></div>
+          <p data-i18n="apt.desc1">Quiet starting point for adventures in nature, mountain, lakes and culture — all in close vicinity. Be king and queen of the hill and enjoy the great views.</p>
+          <p data-i18n="apt.desc2">Situated in Thalgau at the very gateway to the famous Salzkammergut lake district, this modern private apartment sits high on the hillside and offers comfort, privacy and exceptional views. Ideal for couples or small families seeking an authentic Austrian experience.</p>
+          <div class="specs">
+            <div class="spec"><span class="spec-dot"></span><span data-i18n="apt.spec1">Entire private apartment</span></div>
+            <div class="spec"><span class="spec-dot"></span><span data-i18n="apt.spec2">2 rooms</span></div>
+            <div class="spec"><span class="spec-dot"></span><span data-i18n="apt.spec3">Newly built</span></div>
+            <div class="spec"><span class="spec-dot"></span><span data-i18n="apt.spec4">Panoramic views</span></div>
+            <div class="spec"><span class="spec-dot"></span><span data-i18n="apt.spec5">Quiet hillside location</span></div>
+            <div class="spec"><span class="spec-dot"></span><span data-i18n="apt.spec6">Nature on your doorstep</span></div>
+          </div>
+          <div class="price-block">
+            <div class="price-amount">€ 95 <span data-i18n="apt.perNight">/ night</span></div>
+            <div class="price-min" data-i18n="apt.minStay">Minimum stay · 3 nights</div>
+          </div>
+        </div>
+        <img src="images/img8266.jpg" alt="Living room with panoramic mountain views" style="width:100%;height:480px;object-fit:cover;border-radius:3px;image-orientation:from-image;">
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ THE REGION ═══ -->
+  <section id="region">
+    <div class="container">
+      <p class="label" data-i18n="region.label">The Region</p>
+      <h2 class="title" data-i18n="region.title">Your Gateway to the Salzkammergut</h2>
+      <div class="bar"></div>
+      <p class="intro" data-i18n="region.intro">The Salzkammergut is one of Austria's most enchanting landscapes — a tapestry of turquoise lakes, dramatic Alpine peaks and centuries of history. From Thalgau you are ideally placed to discover it all at your own pace.</p>
+      <div class="region-grid">
+        <div class="region-card">
+          <div class="r-icon">⛰</div>
+          <h3 data-i18n="region.mountains.title">Mountains</h3>
+          <p data-i18n="region.mountains.desc">Lace up your hiking boots and explore alpine trails with breathtaking panoramas. The surrounding peaks offer routes for every level, from gentle hillside walks to challenging summit hikes. In winter, world-class ski areas are within easy reach.</p>
+        </div>
+        <div class="region-card">
+          <div class="r-icon">🏊</div>
+          <h3 data-i18n="region.lakes.title">Lakes</h3>
+          <p data-i18n="region.lakes.desc">Swim in crystal-clear glacial waters, kayak on the Mondsee or Wolfgangsee, or simply relax on a lakeshore terrace with a coffee. The lakes of the Salzkammergut are a short drive away and unforgettable at every season.</p>
+        </div>
+        <div class="region-card">
+          <div class="r-icon">🏛</div>
+          <h3 data-i18n="region.culture.title">Culture</h3>
+          <p data-i18n="region.culture.desc">Salzburg — birthplace of Mozart and a UNESCO World Heritage City — is just 20 minutes away. The fairy-tale village of Hallstatt, Bad Ischl and the imperial legacy of the Habsburg summer retreat are all within easy reach.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ GALLERY ═══ -->
+  <section id="gallery">
+    <div class="container">
+      <p class="label" data-i18n="gallery.label">Gallery</p>
+      <h2 class="title" data-i18n="gallery.title">The Property</h2>
+      <div class="bar"></div>
+      <div class="gallery-grid">
+        <div class="g-item">
+          <img src="images/img8266.jpg" alt="Living and dining area with panoramic mountain view" style="width:100%;height:100%;object-fit:cover;image-orientation:from-image;" loading="lazy">
+        </div>
+        <div class="g-item">
+          <img src="images/img6113.jpg" alt="Bedroom with double bed and artwork" style="width:100%;height:290px;object-fit:cover;object-position:center 70%;image-orientation:from-image;" loading="lazy">
+        </div>
+        <div class="g-item">
+          <img src="images/alena_terrace.jpg" alt="Private terrace with garden and lounge chairs" style="width:100%;height:290px;object-fit:cover;image-orientation:from-image;" loading="lazy">
+        </div>
+        <div class="g-item">
+          <img src="images/img8291.jpg" alt="Modern kitchen with dining area" style="width:100%;height:290px;object-fit:cover;image-orientation:from-image;" loading="lazy">
+        </div>
+        <div class="g-item">
+          <img src="images/img8254.jpg" alt="Modern bathroom with walk-in shower" style="width:100%;height:290px;object-fit:cover;image-orientation:from-image;" loading="lazy">
+        </div>
+        <div class="g-item">
+          <img src="images/alena_sofa_view.jpg" alt="Sofa with panoramic valley view through floor-to-ceiling windows" style="width:100%;height:290px;object-fit:cover;image-orientation:from-image;" loading="lazy">
+        </div>
+        <div class="g-item">
+          <img src="images/img5384.jpg" alt="View of the Salzkammergut valley and mountains" style="width:100%;height:290px;object-fit:cover;image-orientation:from-image;" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ BOOKING ═══ -->
+  <section id="booking">
+    <div class="container">
+      <p class="label" data-i18n="booking.label">Reservation Request</p>
+      <h2 class="title" data-i18n="booking.title">Request to Book</h2>
+      <div class="bar"></div>
+      <div class="booking-wrap">
+
+        <div class="booking-info">
+          <p data-i18n="booking.info">We welcome holiday guests who wish to relax, explore and enjoy the natural beauty of the Salzkammergut. Complete the form and we'll get back to you within 24 hours to confirm availability.</p>
+          <div class="notice" data-i18n-html="booking.notice">
+            ⚠ We only accommodate guests travelling for <strong>holiday and leisure</strong> purposes. We are unable to host work, trade or contractor stays.
+          </div>
+          <div class="contact-links">
+            <a href="https://wa.me/436648253022" target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+              WhatsApp: +43 664 825 3022
+            </a>
+          </div>
+          <div class="lang-spoken">
+            <p class="lang-spoken-title" data-i18n="booking.langTitle">We speak</p>
+            <div class="lang-flags">
+              <span class="lang-flag">🇩🇪 Deutsch</span>
+              <span class="lang-flag">🇬🇧 English</span>
+              <span class="lang-flag">🇳🇱 Nederlands</span>
+              <span class="lang-flag">🇷🇺 Русский</span>
+              <span class="lang-flag">🇸🇰 Slovenčina</span>
+              <span class="lang-flag">🇮🇹 Italiano</span>
+            </div>
+          </div>
+        </div>
+
+        <!--
+          FORMSPREE SETUP:
+          1. Go to https://formspree.io — create a free account
+          2. New form → enter info@lakestays.at as recipient
+          3. Copy your Form ID and replace YOUR_FORM_ID below
+        -->
+        <form id="bookingForm" action="https://formspree.io/f/maqaagql" method="POST">
+          <div class="form-row">
+            <div class="fg">
+              <label for="firstName" data-i18n="form.firstName">First Name *</label>
+              <input type="text" id="firstName" name="firstName" required autocomplete="given-name" />
+            </div>
+            <div class="fg">
+              <label for="lastName" data-i18n="form.lastName">Last Name *</label>
+              <input type="text" id="lastName" name="lastName" required autocomplete="family-name" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="fg">
+              <label for="email" data-i18n="form.email">Email Address *</label>
+              <input type="email" id="email" name="email" required autocomplete="email" />
+            </div>
+            <div class="fg">
+              <label for="phone" data-i18n="form.phone">Phone / WhatsApp</label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" />
+            </div>
+          </div>
+          <div class="fg">
+            <label for="address" data-i18n="form.address">Home Address (Street, City, Country) *</label>
+            <input type="text" id="address" name="homeAddress" required
+              data-i18n-placeholder="form.addressPlaceholder"
+              placeholder="e.g. Main Street 1, Amsterdam, Netherlands"
+              autocomplete="street-address" />
+          </div>
+          <div class="form-row">
+            <div class="fg">
+              <label for="nationality" data-i18n="form.nationality">Nationality *</label>
+              <input type="text" id="nationality" name="nationality" required
+                data-i18n-placeholder="form.nationalityPlaceholder"
+                placeholder="e.g. Dutch" />
+            </div>
+            <div class="fg">
+              <label for="guests" data-i18n="form.guests">Number of Guests *</label>
+              <select id="guests" name="numberOfGuests" required>
+                <option value="" data-i18n="form.select">Select…</option>
+                <option value="1">1 <span data-i18n="form.guest">guest</span></option>
+                <option value="2">2 <span data-i18n="form.guests2">guests</span></option>
+                <option value="3">3 <span data-i18n="form.guests2">guests</span></option>
+                <option value="4">4 <span data-i18n="form.guests2">guests</span></option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="fg">
+              <label for="checkin" data-i18n="form.checkin">Arrival Date *</label>
+              <input type="date" id="checkin" name="arrivalDate" required />
+            </div>
+            <div class="fg">
+              <label for="checkout" data-i18n="form.checkout">Departure Date *</label>
+              <input type="date" id="checkout" name="departureDate" required />
+            </div>
+          </div>
+          <div class="fg">
+            <label for="purpose" data-i18n="form.purpose">Purpose of Visit *</label>
+            <select id="purpose" name="purposeOfVisit" required>
+              <option value="" data-i18n="form.select">Select…</option>
+              <option value="Holiday / Vacation" data-i18n="form.purposeHoliday">Holiday / Vacation</option>
+              <option value="Other" data-i18n="form.purposeOther">Other (work, trade, etc.)</option>
+            </select>
+            <div class="purpose-warn" id="purposeWarn" data-i18n="form.purposeWarn">
+              We are unable to accommodate work or trade stays. We only accept guests travelling for holiday and leisure.
+            </div>
+          </div>
+          <div class="fg">
+            <label for="message" data-i18n="form.message">Additional Information / Special Requests</label>
+            <textarea id="message" name="message"
+              data-i18n-placeholder="form.messagePlaceholder"
+              placeholder="Tell us a bit more about your trip, or any questions you may have…"></textarea>
+          </div>
+          <button type="submit" class="btn" id="submitBtn" data-i18n="form.submit">Send Reservation Request</button>
+          <div class="form-msg form-success" id="formSuccess" data-i18n-html="form.success">
+            <strong>Thank you for your request!</strong><br>
+            We have received your enquiry and will be in touch within 24 hours.
+          </div>
+          <div class="form-msg form-error" id="formError" data-i18n="form.error">
+            Something went wrong. Please try again or contact us at info@lakestays.at
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="ft-logo">Lakestays</div>
+    <div class="ft-tag" data-i18n="hero.tagline">Gateway to the Salzkammergut</div>
+    <div class="ft-div"></div>
+    <div class="ft-links">
+      <span>info@lakestays.at</span>
+      <a href="https://wa.me/436648253022" target="_blank" rel="noopener">WhatsApp +43 664 825 3022</a>
+    </div>
+    <div class="ft-addr">Wartenfelserstraße 88a · 5303 Thalgau · Salzburg, Austria</div>
+    <div class="ft-copy" data-i18n="footer.copy">© 2025 Lakestays · Familie van Dijk · All rights reserved</div>
+  </footer>
+
+  <script>
+    // ─── TRANSLATIONS ───────────────────────────────────────────────
+    const translations = {
+      en: {
+        'nav.apartment':            'The Apartment',
+        'nav.region':               'The Region',
+        'nav.gallery':              'Gallery',
+        'nav.book':                 'Book',
+        'hero.tagline':             'Gateway to the Salzkammergut',
+        'hero.btn':                 'Request to Book',
+        'hero.scroll':              'Scroll',
+        'apt.label':                'The Apartment',
+        'apt.title':                'Private 2-Room Apartment in a Newly Built House',
+        'apt.desc1':                'Quiet starting point for adventures in nature, mountain, lakes and culture — all in close vicinity. Be king and queen of the hill and enjoy the great views.',
+        'apt.desc2':                'Situated in Thalgau at the very gateway to the famous Salzkammergut lake district, this modern private apartment sits high on the hillside and offers comfort, privacy and exceptional views. Ideal for couples or small families seeking an authentic Austrian experience.',
+        'apt.spec1':                'Entire private apartment',
+        'apt.spec2':                '2 rooms',
+        'apt.spec3':                'Newly built',
+        'apt.spec4':                'Panoramic views',
+        'apt.spec5':                'Quiet hillside location',
+        'apt.spec6':                'Nature on your doorstep',
+        'apt.perNight':             '/ night',
+        'apt.minStay':              'Minimum stay · 3 nights',
+        'region.label':             'The Region',
+        'region.title':             'Your Gateway to the Salzkammergut',
+        'region.intro':             'The Salzkammergut is one of Austria\'s most enchanting landscapes — a tapestry of turquoise lakes, dramatic Alpine peaks and centuries of history. From Thalgau you are ideally placed to discover it all at your own pace.',
+        'region.mountains.title':   'Mountains',
+        'region.mountains.desc':    'Lace up your hiking boots and explore alpine trails with breathtaking panoramas. The surrounding peaks offer routes for every level, from gentle hillside walks to challenging summit hikes. In winter, world-class ski areas are within easy reach.',
+        'region.lakes.title':       'Lakes',
+        'region.lakes.desc':        'Swim in crystal-clear glacial waters, kayak on the Mondsee or Wolfgangsee, or simply relax on a lakeshore terrace with a coffee. The lakes of the Salzkammergut are a short drive away and unforgettable at every season.',
+        'region.culture.title':     'Culture',
+        'region.culture.desc':      'Salzburg — birthplace of Mozart and a UNESCO World Heritage City — is just 20 minutes away. The fairy-tale village of Hallstatt, Bad Ischl and the imperial legacy of the Habsburg summer retreat are all within easy reach.',
+        'gallery.label':            'Gallery',
+        'gallery.title':            'The Property',
+        'booking.label':            'Reservation Request',
+        'booking.title':            'Request to Book',
+        'booking.info':             'We welcome holiday guests who wish to relax, explore and enjoy the natural beauty of the Salzkammergut. Complete the form and we\'ll get back to you within 24 hours to confirm availability.',
+        'booking.notice':           '⚠ We only accommodate guests travelling for <strong>holiday and leisure</strong> purposes. We are unable to host work, trade or contractor stays.',
+        'booking.langTitle':        'We speak',
+        'form.firstName':           'First Name *',
+        'form.lastName':            'Last Name *',
+        'form.email':               'Email Address *',
+        'form.phone':               'Phone / WhatsApp',
+        'form.address':             'Home Address (Street, City, Country) *',
+        'form.addressPlaceholder':  'e.g. Main Street 1, Amsterdam, Netherlands',
+        'form.nationality':         'Nationality *',
+        'form.nationalityPlaceholder': 'e.g. Dutch',
+        'form.guests':              'Number of Guests *',
+        'form.select':              'Select…',
+        'form.guest':               'guest',
+        'form.guests2':             'guests',
+        'form.checkin':             'Arrival Date *',
+        'form.checkout':            'Departure Date *',
+        'form.purpose':             'Purpose of Visit *',
+        'form.purposeHoliday':      'Holiday / Vacation',
+        'form.purposeOther':        'Other (work, trade, etc.)',
+        'form.purposeWarn':         'We are unable to accommodate work or trade stays. We only accept guests travelling for holiday and leisure.',
+        'form.message':             'Additional Information / Special Requests',
+        'form.messagePlaceholder':  'Tell us a bit more about your trip, or any questions you may have…',
+        'form.submit':              'Send Reservation Request',
+        'form.success':             '<strong>Thank you for your request!</strong><br>We have received your enquiry and will be in touch within 24 hours.',
+        'form.error':               'Something went wrong. Please try again or contact us at info@lakestays.at',
+        'footer.copy':              '© 2025 Lakestays · Familie van Dijk · All rights reserved',
+      },
+      de: {
+        'nav.apartment':            'Die Wohnung',
+        'nav.region':               'Die Region',
+        'nav.gallery':              'Galerie',
+        'nav.book':                 'Buchen',
+        'hero.tagline':             'Tor zum Salzkammergut',
+        'hero.btn':                 'Jetzt anfragen',
+        'hero.scroll':              'Scrollen',
+        'apt.label':                'Die Wohnung',
+        'apt.title':                'Private 2-Zimmer-Wohnung in einem Neubau',
+        'apt.desc1':                'Ruhiger Ausgangspunkt für Abenteuer in Natur, Bergen, Seen und Kultur — alles in unmittelbarer Nähe. Seien Sie König und Königin des Hügels und genießen Sie den großartigen Ausblick.',
+        'apt.desc2':                'In Thalgau gelegen, direkt am Tor zum berühmten Salzkammergut, bietet diese moderne Privatwohnung auf einem Hügel Komfort, Privatsphäre und außergewöhnliche Ausblicke. Ideal für Paare oder kleine Familien, die ein authentisches österreichisches Erlebnis suchen.',
+        'apt.spec1':                'Gesamte Privatwohnung',
+        'apt.spec2':                '2 Zimmer',
+        'apt.spec3':                'Neubau',
+        'apt.spec4':                'Panoramablick',
+        'apt.spec5':                'Ruhige Hanglage',
+        'apt.spec6':                'Natur vor der Haustür',
+        'apt.perNight':             '/ Nacht',
+        'apt.minStay':              'Mindestaufenthalt · 3 Nächte',
+        'region.label':             'Die Region',
+        'region.title':             'Ihr Tor zum Salzkammergut',
+        'region.intro':             'Das Salzkammergut gehört zu Österreichs bezauberndsten Landschaften — ein Mosaik aus türkisfarbenen Seen, dramatischen Alpengipfeln und Jahrhunderten Geschichte. Von Thalgau aus erkunden Sie alles ganz nach Ihrem eigenen Tempo.',
+        'region.mountains.title':   'Berge',
+        'region.mountains.desc':    'Schnüren Sie Ihre Wanderschuhe und erkunden Sie Alpinpfade mit atemberaubenden Panoramen. Die umliegenden Gipfel bieten Touren für jedes Niveau, von sanften Hügelwegen bis zu anspruchsvollen Gipfeltouren. Im Winter sind Weltklasse-Skigebiete in kurzer Reichweite.',
+        'region.lakes.title':       'Seen',
+        'region.lakes.desc':        'Tauchen Sie in kristallklares Wasser, paddeln Sie auf dem Mondsee oder Wolfgangsee, oder entspannen Sie auf einer Seeterrasse bei einem Kaffee. Die Seen des Salzkammerguts sind eine kurze Fahrt entfernt und zu jeder Jahreszeit unvergesslich.',
+        'region.culture.title':     'Kultur',
+        'region.culture.desc':      'Salzburg — Mozarts Geburtsstadt und UNESCO-Weltkulturerbe — ist nur 20 Minuten entfernt. Das märchenhafte Hallstatt, Bad Ischl und das kaiserliche Erbe der Habsburger-Sommerresidenz sind bequem erreichbar.',
+        'gallery.label':            'Galerie',
+        'gallery.title':            'Die Wohnung',
+        'booking.label':            'Reservierungsanfrage',
+        'booking.title':            'Anfrage stellen',
+        'booking.info':             'Wir heißen Urlaubsgäste herzlich willkommen, die die Natur und Schönheit des Salzkammerguts genießen möchten. Füllen Sie das Formular aus — wir melden uns innerhalb von 24 Stunden zur Bestätigung.',
+        'booking.notice':           '⚠ Wir nehmen ausschließlich Gäste auf, die zu <strong>Urlaubs- und Freizeitzwecken</strong> reisen. Arbeits-, Handels- oder Monteuraufenthalte sind leider nicht möglich.',
+        'booking.langTitle':        'Wir sprechen',
+        'form.firstName':           'Vorname *',
+        'form.lastName':            'Nachname *',
+        'form.email':               'E-Mail-Adresse *',
+        'form.phone':               'Telefon / WhatsApp',
+        'form.address':             'Heimatadresse (Straße, Ort, Land) *',
+        'form.addressPlaceholder':  'z.B. Hauptstraße 1, Wien, Österreich',
+        'form.nationality':         'Nationalität *',
+        'form.nationalityPlaceholder': 'z.B. Österreichisch',
+        'form.guests':              'Anzahl Personen *',
+        'form.select':              'Bitte wählen…',
+        'form.guest':               'Person',
+        'form.guests2':             'Personen',
+        'form.checkin':             'Anreisedatum *',
+        'form.checkout':            'Abreisedatum *',
+        'form.purpose':             'Reisezweck *',
+        'form.purposeHoliday':      'Urlaub / Ferien',
+        'form.purposeOther':        'Sonstiges (Arbeit, Handwerk, etc.)',
+        'form.purposeWarn':         'Wir können leider keine Arbeits- oder Handwerkeraufenthalte anbieten. Wir akzeptieren ausschließlich Urlaubsgäste.',
+        'form.message':             'Weitere Informationen / Sonderwünsche',
+        'form.messagePlaceholder':  'Erzählen Sie uns etwas über Ihre Reise oder stellen Sie Fragen…',
+        'form.submit':              'Anfrage absenden',
+        'form.success':             '<strong>Vielen Dank für Ihre Anfrage!</strong><br>Wir haben Ihre Reservierungsanfrage erhalten und melden uns innerhalb von 24 Stunden.',
+        'form.error':               'Etwas ist schiefgelaufen. Bitte erneut versuchen oder kontaktieren Sie uns unter info@lakestays.at',
+        'footer.copy':              '© 2025 Lakestays · Familie van Dijk · Alle Rechte vorbehalten',
+      }
+    };
+
+    // ─── LANGUAGE ENGINE ────────────────────────────────────────────
+    let currentLang = 'en';
+
+    function setLanguage(lang) {
+      if (!translations[lang]) return;
+      currentLang = lang;
+      const t = translations[lang];
+
+      // Text content
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) el.textContent = t[key];
+      });
+
+      // Inner HTML (allows <strong> etc.)
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        if (t[key] !== undefined) el.innerHTML = t[key];
+      });
+
+      // Placeholders
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key] !== undefined) el.placeholder = t[key];
+      });
+
+      // Select options
+      document.querySelectorAll('select option[data-i18n]').forEach(opt => {
+        const key = opt.getAttribute('data-i18n');
+        if (t[key] !== undefined) opt.textContent = t[key];
+      });
+
+      // Update guest options manually (they have inline span tags which don't work in options)
+      const guestSelect = document.getElementById('guests');
+      if (guestSelect) {
+        const g = t['form.guest'] || 'guest';
+        const gs = t['form.guests2'] || 'guests';
+        guestSelect.options[1].textContent = '1 ' + g;
+        guestSelect.options[2].textContent = '2 ' + gs;
+        guestSelect.options[3].textContent = '3 ' + gs;
+        guestSelect.options[4].textContent = '4 ' + gs;
+      }
+
+      // HTML lang attribute
+      document.getElementById('html-root').lang = lang;
+
+      // Active button state
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+      });
+
+      // Persist
+      localStorage.setItem('lang', lang);
+    }
+
+    // ─── AUTO-DETECT ─────────────────────────────────────────────────
+    const savedLang    = localStorage.getItem('lang');
+    const browserLang  = (navigator.language || navigator.userLanguage || 'en').split('-')[0].toLowerCase();
+    const defaultLang  = savedLang || (browserLang === 'de' ? 'de' : 'en');
+    setLanguage(defaultLang);
+
+    // Language switcher click
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
+    });
+
+    // ─── NAV SCROLL ──────────────────────────────────────────────────
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 70);
+    }, { passive: true });
+
+    // ─── PURPOSE GUARD ────────────────────────────────────────────────
+    const purpose     = document.getElementById('purpose');
+    const purposeWarn = document.getElementById('purposeWarn');
+    purpose.addEventListener('change', function () {
+      const blocked = this.value === 'Other';
+      purposeWarn.style.display = blocked ? 'block' : 'none';
+      this.setCustomValidity(blocked ? (translations[currentLang]['form.purposeWarn'] || 'Holiday guests only.') : '');
+    });
+
+    // ─── DATE LOGIC ──────────────────────────────────────────────────
+    const checkinEl  = document.getElementById('checkin');
+    const checkoutEl = document.getElementById('checkout');
+    const today = new Date().toISOString().split('T')[0];
+    checkinEl.min  = today;
+    checkoutEl.min = today;
+    checkinEl.addEventListener('change', () => { checkoutEl.min = checkinEl.value; });
+
+    // ─── FORM SUBMIT ─────────────────────────────────────────────────
+    const form       = document.getElementById('bookingForm');
+    const submitBtn  = document.getElementById('submitBtn');
+    const msgSuccess = document.getElementById('formSuccess');
+    const msgError   = document.getElementById('formError');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (purpose.value === 'Other') {
+        purposeWarn.style.display = 'block';
+        purpose.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      if (checkoutEl.value && checkinEl.value && checkoutEl.value <= checkinEl.value) {
+        alert(currentLang === 'de' ? 'Das Abreisedatum muss nach dem Anreisedatum liegen.' : 'Departure date must be after arrival date.');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = currentLang === 'de' ? 'Wird gesendet…' : 'Sending…';
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          form.style.display = 'none';
+          msgSuccess.style.display = 'block';
+          // Re-apply HTML translation in case it was reset
+          msgSuccess.innerHTML = translations[currentLang]['form.success'];
+        } else {
+          throw new Error('failed');
+        }
+      } catch {
+        msgError.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = translations[currentLang]['form.submit'];
+      }
+    });
+  </script>
+
+</body>
+</html>
